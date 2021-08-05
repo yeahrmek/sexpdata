@@ -11,7 +11,7 @@ if sys.version.split(" ")[0] < "3.4":
 
 setup(
     name='sexpdata',
-    version='0.0.4',
+    version='0.0.4-no_apostrophe',
     py_modules=['sexpdata'],
     author='Joshua D. Boyd, Takafumi Arakaki',
     author_email='jdboyd@jdboyd.net',

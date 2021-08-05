@@ -81,6 +81,11 @@ from collections import namedtuple, Iterable, Mapping, Sequence
 from itertools import chain
 from string import whitespace
 
+
+import warnings
+warnings.warn('Apostrophe is not used as an ending symbol.0')
+
+
 BRACKETS = {'(': ')', '[': ']'}
 
 
@@ -620,8 +625,12 @@ class ExpectSExp(Exception):
 class Parser(object):
 
     closing_brackets = set(BRACKETS.values())
+
+    # TODO: I changed set('"\'') to set('"') to avoid using apostrophe as an ending symbol
+    # _atom_end_basic = \
+    #     set(BRACKETS) | set(closing_brackets) | set('"\'') | set(whitespace)
     _atom_end_basic = \
-        set(BRACKETS) | set(closing_brackets) | set('"\'') | set(whitespace)
+        set(BRACKETS) | set(closing_brackets) | set('"') | set(whitespace)
     _atom_end_basic_or_escape_regexp = "|".join(map(re.escape,
                                                     _atom_end_basic | set('\\')))
     quote_or_escape_re = re.compile(r'"|\\')
@@ -730,13 +739,13 @@ class Parser(object):
                 i += 1
             elif c in self.closing_brackets:
                 break
-            elif c == "'":
-                next_parse_start = i + 1
-                (i, subsexp) = self.parse_sexp(next_parse_start)
-                if not subsexp:
-                    raise ExpectSExp(next_parse_start - 1)
-                append(Quoted(subsexp[0]))
-                sexp.extend(subsexp[1:])
+            # elif c == "'":
+            #     next_parse_start = i + 1
+            #     (i, subsexp) = self.parse_sexp(next_parse_start)
+            #     if not subsexp:
+            #         raise ExpectSExp(next_parse_start - 1)
+            #     append(Quoted(subsexp[0]))
+            #     sexp.extend(subsexp[1:])
             elif c == self.line_comment:
                 i = string.find('\n', i) + 1
                 if i <= 0:
