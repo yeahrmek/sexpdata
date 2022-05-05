@@ -83,10 +83,6 @@ from itertools import chain
 from string import whitespace
 
 
-import warnings
-warnings.warn('Apostrophe is not used as an ending symbol.0')
-
-
 BRACKETS = {'(': ')', '[': ']'}
 
 
